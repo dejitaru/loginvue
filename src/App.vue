@@ -1,18 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <div class="container">
+        <template v-if="!isUserLogged">
+            <input type="email" v-model="user.email">
+            <input type="password" v-model="user.password">
+            <button type="button" @click="login">Login</button>
+        </template>
+        <template v-else>
+            <h2>Bienvenido {{this.email}}</h2>
+
+        </template>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+      return {
+          isUserLogged: false,
+          user: {},
+          remoteUrl: "http://remoteurl.com"
+      }
+  },
+  methods: {
+      login() {
+          if(this.user.email == "lucks17@gmail.com" && this.user.password == "123qwe") {
+            axios.get(this.remoteUrl+ '?'+this.user.email).then((response)=>{
+                console.log(response);
+            })
+          }
+      }
   }
+
 }
 </script>
 
